@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <title>吹</title>
+    <link href="src/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <script src="bower_components/webcomponentsjs/webcomponents-lite.min.js"></script>
+    <link rel="import" href="src/voice-player.html">
+    <link rel="import" href="src/voice-recognition.html">
+</head>
+<body>
+
+<!--输入声音-->
+<voice-recognition id="get-voice" accent="zh-CN"></voice-recognition>
+<!--输出声音-->
+<voice-player id="speak-voice" accent="en-ES"></voice-player>
+
+<div class="jumbotron">
+    <div class="container">
+        <h1>为产品经理精心打造的chui ide v1.0 正式上线</h1>
+        <p><a class="btn btn-primary btn-lg" href="#" role="button" id="chui">开始吹!</a></p>
+    </div>
+</div>
+
+
+<!--预览区域-->
+<div class="preview"></div>
+
+
+<script src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="http://apps.bdimg.com/libs/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+<script>
+
+    var record = "";
+    //当前元素
+    var current_element = null;
+
+   var get_voice = $("#get-voice"),
+       speak_voice = $("#speak-voice");
+
+   var get_voice_origin = get_voice[0];
+
+   var start = $("#chui");
+
+   start.on("click", function ( e ){
+       e.preventDefault();
+       get_voice_origin.start();
+   });
+
+   get_voice.on('result', function(e) {
+       $(".jumbotron").slideUp();
+       var _result = e.target.text.toString();
+       var _r = _result.replace( record , "");
+       if(hasBeen( _r, ["导航"])){
+           createNavigator();
+       }
+       if(hasBeen( _r, ["left"])){
+           left();
+       }
+       if(hasBeen( _r, ["right"])){
+           right();
+       }
+       record += _r;
+   });
+    //匹配这句话中有没有符合的关键词
+   function hasBeen ( sentence, arr ){
+       var b = [],
+           len = arr.length;
+       arr.forEach(function ( el ){
+            if( sentence.indexOf( el ) > -1 ){
+                b.push( true );
+            }
+       });
+       return b.length >= len;
+   }
+
+    function createNavigator (){
+        var $el = '<nav class="navbar navbar-default"><div class="container-fluid"><div class="navbar-header"><button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a class="navbar-brand" href="#">Brand</a></div><div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"><ul class="nav navbar-nav"><li class="active"><a href="#">Link<span class="sr-only">(current)</span></a></li><li><a href="#">Link</a></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown<span class="caret"></span></a><ul class="dropdown-menu"><li><a href="#">Action</a></li><li><a href="#">Another action</a></li><li><a href="#">Something else here</a></li><li role="separator" class="divider"></li><li><a href="#">Separated link</a></li><li role="separator" class="divider"></li><li><a href="#">One more separated link</a></li></ul></li></ul><form class="navbar-form navbar-left" role="search"><div class="form-group"><input type="text" class="form-control" placeholder="Search"></div><button type="submit" class="btn btn-default">Submit</button></form><ul class="nav navbar-nav navbar-right"><li><a href="#">Link</a></li><li class="dropdown"><a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown<span class="caret"></span></a><ul class="dropdown-menu"><li><a href="#">Action</a></li><li><a href="#">Another action</a></li><li><a href="#">Something else here</a></li><li role="separator" class="divider"></li><li><a href="#">Separated link</a></li></ul></li></ul></div></div></nav>';
+        $el = $($el);
+        $el.appendTo($(".preview"));
+        current_element = $el;
+    }
+
+    function left (){
+        if( !current_element ) return;
+    }
+
+    function right (){
+        if( !current_element ) return;
+    }
+
+</script>
+</body>
+</html>
