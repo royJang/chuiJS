@@ -81,13 +81,22 @@
        $(".jumbotron").slideUp();
        var _result = e.target.text.toString();
        var _r = _result.replace( record , "");
+
+       console.log(_r);
+
        if(hasBeen( _r, ["导航"])){
            createNavigator();
        }
-       if(hasBeen( _r, ["眼前一亮"])){
+       else if(hasBeen( _r, ["眼前一亮"])){
            light();
        }
-       if(hasBeen( _r, ["right"])){
+       else if(hasBeen( _r, ["尖叫"] )){
+            shriek();
+       }
+       else if(hasBeen( _r, ["哇","娃","挖","瓦","袜","蛙","洼"] )){
+           wa();
+       }
+       else if(hasBeen( _r, ["right"])){
            right();
        }
        record += _r;
@@ -115,6 +124,24 @@
         var $el = $('<div class="radius" id="radius"></div>');
         $("body").css("background", "#000");
         $el.appendTo($(".preview"));
+        current_element = $el;
+    }
+
+    function shriek (){
+        var $el = document.createElement("video");
+        $el.src = "src/source/shriek.wav";
+        $el.style.display = "none";
+        $el.autoplay = true;
+        document.body.appendChild($el);
+        current_element = $el;
+    }
+
+    function wa(){
+        var $el = document.createElement("video");
+        $el.src = "src/source/wa.wav";
+        $el.style.display = "none";
+        $el.autoplay = true;
+        document.body.appendChild($el);
         current_element = $el;
     }
 
