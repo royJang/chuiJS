@@ -43,7 +43,7 @@
 <!--输入声音-->
 <voice-recognition id="get-voice" accent="zh-CN"></voice-recognition>
 <!--输出声音-->
-<voice-player id="speak-voice" accent="en-ES"></voice-player>
+<voice-player id="speak-voice" accent="zh-CN"></voice-player>
 
 <div class="jumbotron">
     <div class="container">
@@ -99,6 +99,10 @@
        else if(hasBeen( _r, ["right"])){
            right();
        }
+      else {
+           $("#speak-voice").attr("text",_r);
+           $("#speak-voice")[0].speak();
+       }
        record += _r;
    });
     //匹配这句话中有没有符合的关键词
@@ -143,6 +147,11 @@
         $el.autoplay = true;
         document.body.appendChild($el);
         current_element = $el;
+    }
+
+    function handsome (){
+        $("#speak-voice").attr("text","张子良最帅了!");
+        $("#speak-voice")[0].speak();
     }
 
     function left (){
